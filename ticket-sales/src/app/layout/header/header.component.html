@@ -1,0 +1,27 @@
+<p-menubar [model]="items" class="mt-8 bg-green-900" styleClass="white-menubar">
+  <ng-template pTemplate="start">
+    <a [routerLink]="['/']">
+      <img
+        [src]="endeLogoPath"
+        height="40"
+        class="mr-2"
+      />
+    </a>
+  </ng-template>
+  <ng-template pTemplate="end">
+    <div class="flex">
+      <button
+      pButton
+      pRipple
+      [icon]="themeIcon"
+      class="p-button-rounded ml-2"
+    ></button>
+      <button
+        pButton
+        pRipple
+        icon="pi pi-user"
+        class="p-button-rounded ml-2"
+      ></button>
+    </div>
+  </ng-template>
+</p-menubar>

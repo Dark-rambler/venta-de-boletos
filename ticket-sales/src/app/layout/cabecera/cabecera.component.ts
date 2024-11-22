@@ -4,9 +4,9 @@ import { CommonModule } from '@angular/common';
 import { PrimeModule } from 'src/app/prime.module';
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css'],
+  selector: 'app-cabecera',
+  templateUrl: './cabecera.component.html',
+  styleUrls: ['./cabecera.component.css'],
   imports: [CommonModule, RouterModule, PrimeModule],
   standalone: true,
 })

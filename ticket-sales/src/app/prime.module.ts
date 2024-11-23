@@ -32,6 +32,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { DataViewModule } from 'primeng/dataview';
+import { TagModule } from 'primeng/tag';
 @NgModule({
   exports: [
     SelectButtonModule,
@@ -66,7 +68,9 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     FieldsetModule,
     PaginatorModule,
     ConfirmDialogModule,
-    MenuModule
+    MenuModule,
+    DataViewModule,
+    TagModule,
   ]
 })
 export class PrimeModule { }

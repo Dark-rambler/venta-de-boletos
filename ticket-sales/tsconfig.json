@@ -23,9 +23,7 @@
       "ES2022",
       "dom"
     ],
-    "strictNullChecks": false
-    ],
-    "strictNullChecks": false
+    "strictNullChecks": false,
 
   },
   "angularCompilerOptions": {

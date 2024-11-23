@@ -9,7 +9,11 @@ const routes: Routes = [
   },
    { path: 'evento/:id',
     loadComponent: () => import('./modulos/evento/evento.component')
-  }
+  },
+  {
+    path: 'login',
+    loadComponent: () => import('./modulos/login/login.component')
+  },
 ];
 
 @NgModule({

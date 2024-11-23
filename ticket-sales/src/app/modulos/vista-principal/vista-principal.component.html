@@ -93,7 +93,7 @@
             pButton
             icon="pi pi-shopping-cart"
             class="p-button-rounded"
-            [disabled]="promo.inventoryStatus === 'OUTOFSTOCK'"
+            (click)="crearEvento()"
           ></button>
         </div>
       </div>

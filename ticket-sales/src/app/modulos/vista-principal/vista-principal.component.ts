@@ -3,6 +3,7 @@ import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DataViewLayoutChangeEvent } from 'primeng/dataview';
 import { PrimeModule } from 'src/app/prime.module';
+import { VistaPricipalService } from './service/vista-pricipal.service';
 
 @Component({
   selector: 'app-vista-principal',
@@ -152,11 +153,27 @@ export default class VistaPrincipalComponent {
 
   public data: any[] = this.eventos;
   public tittle: string = 'Eventos';
-  constructor(private router: Router) { }
+  constructor(
+    private router: Router,
+    private vistaPricipalService: VistaPricipalService
+  ) { }
+
+  ngOnInit(): void {
+    this.vistaPricipalService.getEventos().subscribe((promos) => {
+      console.log('Promos:', promos);
+    });
+  }
 
   public ingresarCard(id: number): void {
     console.log('Ingresar a la card con id:', id);
     this.router.navigate([`/evento/${id}`]); // Navegar a la ruta dinámica
+  }
+
+  public crearEvento(): void {
+    this.vistaPricipalService.postEvento()
+      .then(() => {
+        console.log('Evento creado');
+      });
   }
 
   public cambiarVista(event: DataViewLayoutChangeEvent) {

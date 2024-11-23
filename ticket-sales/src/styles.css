@@ -8,11 +8,15 @@
 .layout-main{
   display: flex;
   flex-direction: column;
-  margin-top: 60px; ;
+  min-height: 100vh;
   margin: 0 90px;
-  padding: 0;
 }
-.container{
-  background-color: white;
+.white-menubar{
+  background-color: rgb(238, 215, 172);
+  color: black;
+}
+
+.option-menu{
+background-color: rgb(209, 127, 27);
 }
 

@@ -32,8 +32,8 @@ import { ConfirmDialogModule } from 'primeng/confirmdialog';
 import { MenuModule } from 'primeng/menu';
 import { BadgeModule } from 'primeng/badge';
 import { SelectButtonModule } from 'primeng/selectbutton';
-import {TagModule} from 'primeng/tag'
-import {DataViewModule} from 'primeng/dataview'
+import { DataViewModule } from 'primeng/dataview';
+import { TagModule } from 'primeng/tag';
 @NgModule({
   exports: [
     SelectButtonModule,
@@ -69,6 +69,7 @@ import {DataViewModule} from 'primeng/dataview'
     PaginatorModule,
     ConfirmDialogModule,
     MenuModule,
+    DataViewModule,
     TagModule,
     DataViewModule,
     ButtonModule,

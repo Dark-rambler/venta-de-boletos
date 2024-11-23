@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators, ReactiveFormsModule, FormGroup, NonNullableFormBuilder } from '@angular/forms';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { PrimeModule } from 'src/app/prime.module';
 import { hasEmailError, isRequired } from 'src/app/utils/validators';
+import { AuthService } from './service/auth.service';
+import { MessageService } from 'primeng/api';
 
 interface FormLogin {
   email: FormControl<string | null>;
@@ -16,9 +18,10 @@ interface FormLogin {
   styleUrls: ['./login.component.css'],
   standalone: true,
   imports: [CommonModule, RouterModule, PrimeModule, ReactiveFormsModule],
+  providers: [AuthService, MessageService],
 })
 export default class LoginComponent {
-  loginForm: FormGroup<FormLogin>;
+  public loginForm: FormGroup<FormLogin>;
 
   isRequired(field: 'email' | 'password') {
     return isRequired(field, this.loginForm);
@@ -29,7 +32,7 @@ export default class LoginComponent {
     return hasEmailError(this.loginForm);
   }
 
-  constructor(private fb: FormBuilder) {
+  constructor(private fb: FormBuilder, private authService: AuthService, private messageService: MessageService, private router: Router) {
     this.loginForm = this.fb.group<FormLogin>({
       email: new FormControl('', {
         nonNullable: true, 
@@ -42,13 +45,31 @@ export default class LoginComponent {
     });
   }
 
-  login(): void {
+  async login() {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
-      console.log('Usuario:', email);
-      console.log('Contraseña:', password);
+      try {
+        await this.authService.login({ email, password });
+        console.log('Inicio de sesión exitoso');
+        this.messageService.add({
+          severity: 'success',
+          summary: 'Inicio de sesión exitoso',
+          life: 3000,
+        });
+        this.router.navigate(['/inicio']);
+      } catch (error) {
+        this.messageService.add({
+          severity: 'error',
+          summary: 'Error al iniciar sesión',
+          life: 3000,
+        });        
+      }
     } else {
-      console.log('Formulario inválido');
+      this.messageService.add({
+        severity: 'error',
+        summary: 'Usuario o contraseña incorrectos',
+        life: 3000,
+      });
     }
   }
 }

@@ -70,7 +70,9 @@ import {DataViewModule} from 'primeng/dataview'
     ConfirmDialogModule,
     MenuModule,
     TagModule,
-    DataViewModule
+    DataViewModule,
+    ButtonModule,
+    CardModule
   ]
 })
 export class PrimeModule { }

@@ -1,1 +1,74 @@
-<p>evento works!</p>
+<div class="mt-4 flex justify-content-center align-items-center">
+  <p-card header="Advanced Card" subheader="Card Subheader" class="w-full">
+    <ng-template pTemplate="header">
+      <div class="grid">
+        <img
+          class="col-9"
+          alt="Card"
+          [height]="450"
+          responsive
+          src="https://elements-resized.envatousercontent.com/elements-video-cover-images/files/318780022/Image-DJ-Concert-Tour-Promo-Ae-01.jpg?w=500&cf_fit=cover&q=85&format=auto&s=e33c20119b2e3ece8efadaf924afa676a29ac2ac1ae1e3cd686a1e6f48f03f66"
+        />
+        <div class="col-3">
+          <p class="h-full pt-6">
+            hora:
+            <br />
+            <br />
+            <br />
+
+            Lugar:
+            <br />
+            <br />
+            <br />
+            Artista:
+
+          </p>
+          <div class="flex align-items-center justify-content-center">
+            <button
+              pButton
+              icon=" pi pi-minus"
+              class="p-button-rounded"
+              (click)="restarBoleto()"
+              pTooltip="Restar boleto"
+              tooltipPosition="top"
+            ></button>
+            <div class="w-3 text-xl font-bold text-center">
+              {{ cantidadBoletos }}
+            </div>
+            <button
+              pButton
+              icon="pi pi-plus"
+              class="p-button-rounded"
+              (click)="sumarBoleto()"
+              pTooltip="Agregar boleto"
+              tooltipPosition="top"
+            ></button>
+          </div>
+          <div class="ml-8  pt-4"> Precio total: {{monto}} Bs</div>
+
+        </div>
+      </div>
+    </ng-template>
+    <ng-template pTemplate="footer" >
+      <div class="flex">
+        <p>
+          Lorem ipsum dolor sit amet, consectetur adipisicing elit. Inventore
+          sed consequuntur error repudiandae numquam deserunt quisquam
+          repellat libero asperiores earum nam nobis, culpa ratione quam
+          perferendis esse, cupiditate neque quas!
+        </p>
+        <div class=" w-9 flex flex-row-reverse">
+          <div class=" mr-5">
+            <button
+              label="Agregar al carrito"
+              class="p-button-success"
+              pRipple
+              pButton
+              icon="pi pi-shopping-cart"
+            ></button>
+          </div>
+        </div>
+      </div>
+    </ng-template>
+  </p-card>
+</div>

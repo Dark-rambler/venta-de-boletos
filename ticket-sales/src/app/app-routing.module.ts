@@ -6,6 +6,9 @@ const routes: Routes = [
   {
     path: 'inicio',
     loadComponent: () => import('./modulos/vista-principal/vista-principal.component')
+  },
+   { path: 'evento/:id',
+    loadComponent: () => import('./modulos/evento/evento.component')
   }
 ];
 

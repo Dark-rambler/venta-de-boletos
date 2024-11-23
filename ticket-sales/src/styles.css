@@ -3,22 +3,18 @@
 *{
   font-family: 'Roboto', sans-serif;
 }
-/* body{
+ body{
   background-color: rgb(255, 251, 242);
 }
 
 .layout-main{
   display: flex;
   flex-direction: column;
-  min-height: 100vh;
+  margin-top: 60px; ;
   margin: 0 90px;
+  padding: 0;
 }
-.white-menubar{
-  background-color: rgb(238, 215, 172);
-  color: black;
+.container{
+  background-color: white;
 }
-
-.option-menu{
-background-color: rgb(209, 127, 27);
-} */
 

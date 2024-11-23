@@ -24,6 +24,9 @@
       "dom"
     ],
     "strictNullChecks": false
+    ],
+    "strictNullChecks": false
+
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,

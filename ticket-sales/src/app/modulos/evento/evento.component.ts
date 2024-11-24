@@ -2,6 +2,9 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { EventoModule } from './evento.module';
+import { VistaPricipalService } from '../vista-principal/service/vista-pricipal.service';
+import { Evento } from 'src/app/interfaces/evento.interface';
+import { Carrito } from 'src/app/interfaces/carrito.interface';
 
 @Component({
   selector: 'app-evento',
@@ -11,38 +14,59 @@ import { EventoModule } from './evento.module';
   styleUrls: ['./evento.component.css']
 })
 export default class EventoComponent {
-  productId!: string;
-  cantidadBoletos: number = 1;
-  monto = 0;
-  evento: any =  {
-    id: 2,
-    title: 'Evento 2',
-    description: 'Evento 2 description',
-    price: 200,
-    image: 'https://via.placeholder.com/150',
-  };
+  public productId!: string;
+  public cantidadBoletos: number = 1;
+  public montoTotal: number = 0;
+  public evento: Evento;
 
 
-  constructor(private route: ActivatedRoute) {}
+  constructor(private route: ActivatedRoute,
+    private vistaPricipalService: VistaPricipalService
+  ) { }
 
   ngOnInit(): void {
+    // Suscribirse a los parámetros de la ruta
     this.route.paramMap.subscribe((params) => {
       this.productId = params.get('id')!;
       console.log(`Product ID: ${this.productId}`);
-    });
-
-    this.monto = this.evento.price;
+      this.getEventoById(this.productId);
+      // Aquí puedes cargar los detalles del producto usando el ID
+    }
+    );
   }
 
-
-  public sumarBoleto(): void {
+  public incrementar(): void {
     this.cantidadBoletos++;
-    this.monto = this.cantidadBoletos * this.evento.price;
+    this.montoTotal = this.cantidadBoletos * this.evento.precio;
   }
-  public restarBoleto(): void {
+
+  public decrementar(): void {
     if (this.cantidadBoletos > 1) {
       this.cantidadBoletos--;
-      this.monto = this.cantidadBoletos * this.evento.price;
+      this.montoTotal = this.cantidadBoletos * this.evento.precio;
     }
+  }
+
+  private getEventoById(id: string): void {
+    this.vistaPricipalService.getEventoById(id).pipe().subscribe((evento) => {
+      if (evento) {
+        this.evento = evento;
+        this.montoTotal = this.cantidadBoletos * this.evento.precio;
+        console.log(this.evento);
+      } else {
+        console.log('Evento no encontrado');
+      }
+    }
+    );
+  }
+
+  public agregarAlCarrito(): void {
+    const item: Carrito = {
+      items: [this.evento],
+      cantidad: this.cantidadBoletos,
+      montoTotal: this.montoTotal
+    };
+    this.vistaPricipalService.setCarritoService(item)
+    ;
   }
 }

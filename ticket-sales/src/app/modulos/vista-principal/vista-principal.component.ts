@@ -65,10 +65,10 @@ export default class VistaPrincipalComponent {
     if (event.layout === 'grid') {
       this.data = this.promos;
       this.tittle = 'Promociones';
-    } else {
+      return;
+    }
       this.data = this.eventos;
       this.tittle = 'Eventos';
-    }
   }
 
 }

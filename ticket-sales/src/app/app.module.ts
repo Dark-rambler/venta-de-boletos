@@ -7,6 +7,7 @@ import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
 import { HeaderComponent } from './layout/cabecera/cabecera.component';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
 @NgModule({
   declarations: [AppComponent],
@@ -14,6 +15,7 @@ import { HeaderComponent } from './layout/cabecera/cabecera.component';
     BrowserModule,
     AppRoutingModule,
     HeaderComponent,
+    BrowserAnimationsModule,
     provideFirebaseApp(() =>
       initializeApp({
         projectId: 'eventos-angular',

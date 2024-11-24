@@ -44,13 +44,13 @@ export class VistaPricipalService {
       getDoc(eventoDocRef).then((docSnap) => {
         if (docSnap.exists()) {
           const eventoData = docSnap.data() as Evento;
-          observer.next(eventoData);  // Emitir los datos del evento
+          observer.next(eventoData);
         } else {
-          observer.next(undefined);  // Si no existe el evento, emitimos undefined
+          observer.next(undefined);
         }
         observer.complete();
       }).catch((error) => {
-        observer.error(error);  // Si hay un error, lo emitimos
+        observer.error(error);  
       });
     });
   }

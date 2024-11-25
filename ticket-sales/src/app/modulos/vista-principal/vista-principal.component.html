@@ -95,5 +95,14 @@
     </div>
   </ng-template>
 </p-dataView>
-
+<div class=" w-2 h-5rem" *ngIf="autenticado">
+  <button
+    pButton
+    type="button"
+    icon="pi pi-close"
+    class="p-button-danger"
+    label="Cerrar Sesión"
+    (click)="cerrarSesion()"
+    ></button>
+</div>
 </div>

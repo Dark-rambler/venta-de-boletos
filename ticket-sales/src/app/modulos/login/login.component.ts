@@ -25,7 +25,6 @@ export default class LoginComponent {
 
   isRequired(field: 'email' | 'password') {
     return isRequired(field, this.loginForm);
-
   }
 
   isEmailRequired() {
@@ -49,13 +48,16 @@ export default class LoginComponent {
     if (this.loginForm.valid) {
       const { email, password } = this.loginForm.value;
       try {
-        await this.authService.login({ email, password });
+        let data = await this.authService.login({ email, password });
         console.log('Inicio de sesión exitoso');
         this.messageService.add({
           severity: 'success',
           summary: 'Inicio de sesión exitoso',
           life: 3000,
         });
+        let token: any = data.user;
+        this.authService.setToken(token.accessToken);
+
         this.router.navigate(['/inicio']);
       } catch (error) {
         this.messageService.add({

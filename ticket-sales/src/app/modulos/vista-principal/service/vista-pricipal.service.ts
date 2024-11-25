@@ -12,6 +12,7 @@ const EVENTOPATH = 'evento';
   providedIn: 'root'
 })
 export class VistaPricipalService {
+
   constructor(private firestore: Firestore) { }
 
   private _collections = collection(this.firestore, PROMOPATH);
@@ -50,7 +51,7 @@ export class VistaPricipalService {
         }
         observer.complete();
       }).catch((error) => {
-        observer.error(error);  
+        observer.error(error);
       });
     });
   }

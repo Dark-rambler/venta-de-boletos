@@ -1,10 +1,11 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { EventoModule } from './evento.module';
 import { VistaPricipalService } from '../vista-principal/service/vista-pricipal.service';
 import { Evento } from 'src/app/interfaces/evento.interface';
 import { Carrito } from 'src/app/interfaces/carrito.interface';
+import { AuthService } from '../login/service/auth.service';
 
 @Component({
   selector: 'app-evento',
@@ -21,16 +22,17 @@ export default class EventoComponent {
 
 
   constructor(private route: ActivatedRoute,
-    private vistaPricipalService: VistaPricipalService
+    private vistaPricipalService: VistaPricipalService,
+    private authService: AuthService,
+    private router: Router,
+
   ) { }
 
   ngOnInit(): void {
-    // Suscribirse a los parámetros de la ruta
     this.route.paramMap.subscribe((params) => {
       this.productId = params.get('id')!;
       console.log(`Product ID: ${this.productId}`);
       this.getEventoById(this.productId);
-      // Aquí puedes cargar los detalles del producto usando el ID
     }
     );
   }
@@ -69,4 +71,8 @@ export default class EventoComponent {
     this.vistaPricipalService.setCarritoService(item)
     ;
   }
+  public cerrarSesion(): void {
+    this.authService.removeToken();
+    this.router.navigate(['/login']);}
+
 }

@@ -18,26 +18,6 @@ import { AuthService } from '../login/service/auth.service';
 export default class VistaPrincipalComponent {
 
   public autenticado: boolean;
-
-  public promos: Promo[] = [
-
-    {
-      nombre: 'Promo 1',
-      descripcion: 'Promo 1 description',
-      precio: 100,
-      imagen: 'https://via.placeholder.com/150',
-      fecha: '10/06/2025',
-      boletos: 1000,
-      lugar: 'Estadio de la ciudad',
-      descuento: 10,
-      fechaFin: '10/06/2025',
-      fechaInicio: '10/06/2024',
-      categoria: 'Concierto'
-    }
-  ]
-    ;
-  public eventos: Evento[];
-
   public data: Evento[];
   public tittle: string = 'Eventos';
   constructor(
@@ -47,7 +27,6 @@ export default class VistaPrincipalComponent {
   ) { }
 
   ngOnInit(): void {
-
     this.autenticado = this.authService.isToken();
     this.getEventos();
   }
@@ -78,16 +57,18 @@ export default class VistaPrincipalComponent {
   }
 
   public cambiarVista(event: DataViewLayoutChangeEvent) {
+    
     if (event.layout === 'grid') {
       this.getPromos();
       this.tittle = 'Promociones';
       return;
     }
-        this.getEventos();
-      this.tittle = 'Eventos';
+    this.getEventos();
+    this.tittle = 'Eventos';
   }
   public cerrarSesion(): void {
     this.authService.removeToken();
-    this.router.navigate(['/login']);}
+    this.router.navigate(['/login']);
+  }
 
 }

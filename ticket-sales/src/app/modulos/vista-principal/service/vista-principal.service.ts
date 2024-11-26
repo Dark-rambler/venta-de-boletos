@@ -39,29 +39,21 @@ export class VistaPrincipalService {
   public setCarritoService(evento: Item): void {
     this.removeCarritoLocalStorage();
 
-    if (this.carritoService.items.length === 0) {
-      this.carritoService.items.push(evento.evento);
-      this.carritoService.montoTotal = evento.montoTotal;
-      this.setCarritoLocalStorage(this.carritoService);
-      console.log('Primer elemento');
-      return;
-    }
-
     const existingItem = this.carritoService.items.find((i) => i.id === evento.evento.id);
-    if(existingItem) {
-      existingItem.boletos += evento.evento.boletos;
-      this.carritoService.montoTotal += evento.montoTotal;
-      this.setCarritoLocalStorage(this.carritoService);
-      console.log('Elemento existente');
-      return;
+
+    if (existingItem) {
+        existingItem.boletos += evento.evento.boletos;
+        this.carritoService.montoTotal += evento.evento.boletos * existingItem.precio;
+        console.log('Elemento existente actualizado:', existingItem);
+    } else {
+        this.carritoService.items.push(evento.evento);
+        this.carritoService.montoTotal += evento.evento.boletos * evento.evento.precio;
+        console.log('Nuevo elemento agregado:', evento.evento);
     }
-
-    this.carritoService.items.push(evento.evento);
-    this.carritoService.montoTotal += evento.montoTotal;
-
 
     this.setCarritoLocalStorage(this.carritoService);
-  }
+}
+
 
   public getPromos() {
     return collectionData(this._collections) as Observable<Promo[]>;

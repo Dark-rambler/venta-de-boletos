@@ -56,7 +56,14 @@ export default class EventoComponent {
         this.montoTotal = this.cantidadBoletos * this.evento.precio;
         console.log(this.evento);
       } else {
-        console.log('Evento no encontrado');
+      this.vistaPricipalService.getPromoById(id).pipe().subscribe((promo) => {
+        if (promo) {
+          this.evento = promo;
+          this.montoTotal = this.cantidadBoletos * this.evento.precio;
+          console.log(this.evento);
+        } else {
+          console.log('No se encontro el evento');
+        }});
       }
     }
     );

@@ -56,8 +56,16 @@ export default class VistaPrincipalComponent {
       });
   }
 
+  public crearPromo(): void {
+    this.vistaPricipalService.postPromo()
+      .then(() => {
+        console.log('Promo creada');
+      }
+      );
+  }
+
   public cambiarVista(event: DataViewLayoutChangeEvent) {
-    
+
     if (event.layout === 'grid') {
       this.getPromos();
       this.tittle = 'Promociones';

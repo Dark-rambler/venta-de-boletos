@@ -33,6 +33,10 @@ export class VistaPrincipalService {
   };
 
   public getCarritoService(): Carrito {
+    const storedData = this.getCarritoLocalStorage();
+    if (storedData) {
+      this.carritoService = JSON.parse(storedData);
+    }
     return this.carritoService;
   }
 
@@ -52,6 +56,12 @@ export class VistaPrincipalService {
     }
 
     this.setCarritoLocalStorage(this.carritoService);
+}
+
+public deleteCarritoService(): void {
+    this.carritoService.items = [];
+    this.carritoService.montoTotal = 0;
+  this.removeCarritoLocalStorage();
 }
 
    public getPromos() {
@@ -146,11 +156,8 @@ export class VistaPrincipalService {
     localStorage.setItem('carrito', JSON.stringify(carrito));
   }
 
-  public getCarritoLocalStorage(): void {
-    const carrito = localStorage.getItem('carrito');
-    if (carrito) {
-      this.carritoService = JSON.parse(carrito);
-    }
+  public getCarritoLocalStorage() {
+    return localStorage.getItem('carrito');
   }
 
   public removeCarritoLocalStorage(): void {

@@ -27,18 +27,20 @@ export class ModalComponent {
   }
 
   loadEventos() {
-    const storedData = localStorage.getItem('carrito');
+    const storedData = this.vistaPrincipalService.getCarritoService();
     if (storedData) {
-      this.eventos = JSON.parse(storedData).items;
-      this.total = JSON.parse(storedData).montoTotal;
+      this.eventos = storedData.items;
+      this.total = storedData.montoTotal;
     }
   }
 
   openModal() {
+    this.loadEventos();
     this.visible = true;
   }
 
   closeModal() {
+    this.loadEventos();
     this.visible = false;
   }
 
@@ -49,4 +51,7 @@ export class ModalComponent {
       this.closeModal();
     }
   }
+  cancelarCompra() {
+    this.vistaPrincipalService.deleteCarritoService();
+    this.closeModal();}
 }

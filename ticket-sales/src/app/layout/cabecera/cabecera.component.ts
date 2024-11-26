@@ -4,6 +4,7 @@ import { PrimeModule } from 'src/app/prime.module';
 import { AuthService } from 'src/app/modulos/login/service/auth.service';
 import { RouterModule, Router } from '@angular/router';
 import { ModalComponent } from 'src/app/componentes/modal/modal.component';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-cabecera',
@@ -13,17 +14,44 @@ import { ModalComponent } from 'src/app/componentes/modal/modal.component';
   standalone: true,
 })
 export class HeaderComponent {
-  public items: any;
-  public endeLogoPath: string;
-  public themeIcon: string;
-  public themeMode: boolean;
-  constructor() {}
+  public isvisible: boolean;
+  public destroySubject: Subject<void> = new Subject<void>();
+  constructor(private authService: AuthService,
+    private router: Router
+  ) { }
 
-  public setThemeMode(themeMode: boolean) {
-    this.themeMode = themeMode;
+  ngOnInit(): void {
+    this.empiezaAEscuchar();
+    console.log(this.isvisible, 'isvisible');
+  }
+
+  ngOnDestroy(): void {
+    this.destroySubject.next();
+    this.destroySubject.complete();
+  }
+
+
+  public empiezaAEscuchar() {
+    this.authService.getIsAuth()
+    .pipe(takeUntil(this.destroySubject))
+    .subscribe((isAuth) => {
+      console.log(isAuth, 'isAuth');
+      this.isvisible = isAuth;
+      console.log(this.isvisible, 'isvisible');
+
+    });
   }
 
   public openModal(modal: ModalComponent) {
     modal.openModal();
+  }
+
+  public cerrarSesion() {
+    console.log(this.isvisible);
+
+    this.authService.cerrarSesion();
+    this.router.navigate(['/login']);
+    console.log(this.isvisible);
+
   }
 }

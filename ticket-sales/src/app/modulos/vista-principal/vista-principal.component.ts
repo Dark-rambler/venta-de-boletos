@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DataViewLayoutChangeEvent } from 'primeng/dataview';
 import { PrimeModule } from 'src/app/prime.module';
-import { VistaPricipalService } from './service/vista-pricipal.service';
+import { VistaPrincipalService } from './service/vista-principal.service';
 import { Promo } from 'src/app/interfaces/promo.interface';
 import { Evento } from 'src/app/interfaces/evento.interface';
 import { AuthService } from '../login/service/auth.service';
@@ -22,7 +22,7 @@ export default class VistaPrincipalComponent {
   public tittle: string = 'Eventos';
   constructor(
     private router: Router,
-    private vistaPricipalService: VistaPricipalService,
+    private vistaPrincipalService: VistaPrincipalService,
     private authService: AuthService
   ) { }
 
@@ -32,14 +32,14 @@ export default class VistaPrincipalComponent {
   }
 
   public getEventos() {
-    this.vistaPricipalService.getEventos()
+    this.vistaPrincipalService.getEventos()
       .subscribe((promos: Evento[]) => {
         this.data = promos;
       });
   }
 
   public getPromos() {
-    this.vistaPricipalService.getPromos()
+    this.vistaPrincipalService.getPromos()
       .subscribe((promos: Promo[]) => {
         this.data = promos;
       });
@@ -50,14 +50,14 @@ export default class VistaPrincipalComponent {
   }
 
   public crearEvento(): void {
-    this.vistaPricipalService.postEvento()
+    this.vistaPrincipalService.postEvento()
       .then(() => {
         console.log('Evento creado');
       });
   }
 
   public crearPromo(): void {
-    this.vistaPricipalService.postPromo()
+    this.vistaPrincipalService.postPromo()
       .then(() => {
         console.log('Promo creada');
       }

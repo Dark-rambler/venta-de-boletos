@@ -11,7 +11,7 @@ const EVENTOPATH = 'evento';
 @Injectable({
   providedIn: 'root'
 })
-export class VistaPricipalService {
+export class VistaPrincipalService {
 
   constructor(private firestore: Firestore) { }
 

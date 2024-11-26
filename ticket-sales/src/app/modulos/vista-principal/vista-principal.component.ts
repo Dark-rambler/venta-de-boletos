@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DataViewLayoutChangeEvent } from 'primeng/dataview';
 import { PrimeModule } from 'src/app/prime.module';
-import { VistaPricipalService } from './service/vista-pricipal.service';
+import { VistaPrincipalService } from './service/vista-principal.service';
 import { Promo } from 'src/app/interfaces/promo.interface';
 import { Evento } from 'src/app/interfaces/evento.interface';
 
@@ -30,7 +30,7 @@ export default class VistaPrincipalComponent {
       descuento: 10,
       fechaFin: '10/06/2025',
       fechaInicio: '10/06/2024',
-      categoria: 'Concierto'
+      categoria: 'Concierto',
     }
   ]
     ;
@@ -40,7 +40,7 @@ export default class VistaPrincipalComponent {
   public tittle: string = 'Eventos';
   constructor(
     private router: Router,
-    private vistaPricipalService: VistaPricipalService
+    private vistaPricipalService: VistaPrincipalService
   ) { }
 
   ngOnInit(): void {

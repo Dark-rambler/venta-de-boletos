@@ -1,5 +1,5 @@
 export interface Base {
-    id?: number;
+    id?: string;
     nombre: string;
     descripcion: string;
 

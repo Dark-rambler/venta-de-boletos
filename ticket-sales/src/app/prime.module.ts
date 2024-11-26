@@ -73,7 +73,8 @@ import { TagModule } from 'primeng/tag';
     TagModule,
     DataViewModule,
     ButtonModule,
-    CardModule
+    CardModule,
+    DialogModule,
   ]
 })
 export class PrimeModule { }

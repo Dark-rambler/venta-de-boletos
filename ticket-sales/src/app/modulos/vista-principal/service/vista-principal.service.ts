@@ -1,61 +1,88 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { addDoc, collection, collectionData, doc, Firestore, getDoc } from '@angular/fire/firestore';
+import {
+  addDoc,
+  collection,
+  collectionData,
+  doc,
+  Firestore,
+  getDoc,
+} from '@angular/fire/firestore';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Carrito } from 'src/app/interfaces/carrito.interface';
 import { Evento } from 'src/app/interfaces/evento.interface';
+import { Item } from 'src/app/interfaces/item';
 import { Promo } from 'src/app/interfaces/promo.interface';
 const PROMOPATH = 'promo';
 const EVENTOPATH = 'evento';
+const SALEPATH = 'venta';
+
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class VistaPrincipalService {
-
-  constructor(private firestore: Firestore) { }
+  constructor(private firestore: Firestore) {}
 
   private _collections = collection(this.firestore, PROMOPATH);
   private _collectionsEvento = collection(this.firestore, EVENTOPATH);
-  private carritoService: BehaviorSubject<Carrito> = new BehaviorSubject<Carrito>({} as Carrito);
+  private _collectionsVenta = collection(this.firestore, SALEPATH);
+  private carritoService: Carrito = {
+    items: [],
+    montoTotal: 0,
+  };
 
-
-
-  public getCarritoService(): Observable<Carrito> {
-    return this.carritoService.asObservable();
+  public getCarritoService(): Carrito {
+    return this.carritoService;
   }
 
-  public setCarritoService(carrito: Carrito): void {
-    this.carritoService.next(carrito);
-    this.setCarritoLocalStorage();
-  }
+  public setCarritoService(evento: Item): void {
+    this.removeCarritoLocalStorage();
 
-  public getPromos() {
+    const existingItem = this.carritoService.items.find((i) => i.id === evento.evento.id);
+
+    if (existingItem) {
+        existingItem.boletos += evento.evento.boletos;
+        this.carritoService.montoTotal += evento.evento.boletos * existingItem.precio;
+        console.log('Elemento existente actualizado:', existingItem);
+    } else {
+        this.carritoService.items.push(evento.evento);
+        this.carritoService.montoTotal += evento.evento.boletos * evento.evento.precio;
+        console.log('Nuevo elemento agregado:', evento.evento);
+    }
+
+    this.setCarritoLocalStorage(this.carritoService);
+}
+
+   public getPromos() {
     return collectionData(this._collections, { idField: 'id' }) as Observable<Promo[]>;
   }
 
   public getEventos() {
-    return collectionData(this._collectionsEvento, { idField: 'id' }) as Observable<Evento[]>;
+    return collectionData(this._collectionsEvento, {
+      idField: 'id',
+    }) as Observable<Evento[]>;
   }
 
   public getEventoById(id: string): Observable<Evento | undefined> {
     const eventoDocRef = doc(this.firestore, `${EVENTOPATH}/${id}`);
 
     return new Observable<Evento | undefined>((observer) => {
-      getDoc(eventoDocRef).then((docSnap) => {
-        if (docSnap.exists()) {
-          const eventoData = docSnap.data() as Evento;
-          observer.next(eventoData);
-        } else {
-          observer.next(undefined);
-        }
-        observer.complete();
-      }).catch((error) => {
-        observer.error(error);
-      });
+      getDoc(eventoDocRef)
+        .then((docSnap) => {
+          if (docSnap.exists()) {
+            const eventoData = { id: docSnap.id, ...docSnap.data() } as Evento;
+            observer.next(eventoData);
+          } else {
+            observer.next(undefined);
+          }
+          observer.complete();
+        })
+        .catch((error) => {
+          observer.error(error);
+        });
     });
   }
-
   public getPromoById(id: string): Observable<Promo | undefined> {
     const promoDocRef = doc(this.firestore, `${PROMOPATH}/${id}`);
 
@@ -91,29 +118,42 @@ export class VistaPrincipalService {
 
   public postPromo() {
     let promo: Promo = {
-      nombre: 'Peliculas de terror',
-      descripcion: 'Disfruta de las mejores peliculas de terror en el cine de la ciudad con tus amigos y familiares descuento del 50%',
+      nombre: 'Concierto de Kpop',
+      descripcion:
+        'Vive la experiencia de un concierto de Kpop en vivo con tus amigos y familiares en el estadio de la ciudad con un 10% de descuento',
       precio: 100,
-      imagen: 'https://img.freepik.com/psd-gratis/plantilla-banner-festival-musica-rock_23-2148971252.jpg',
+      imagen:
+        'https://img.freepik.com/psd-gratis/plantilla-banner-festival-musica-rock_23-2148971252.jpg',
       fecha: '10/06/2025',
       boletos: 1000,
       lugar: 'Estadio de la ciudad',
-      categoria: 'Pelicula',
-      descuento: 50,
+      categoria: 'Concierto',
+      descuento: 10,
       fechaFin: '10/06/2025',
-      fechaInicio: '10/06/2024'
+      fechaInicio: '10/06/2024',
     };
     return addDoc(this._collections, promo);
   }
 
-  public setCarritoLocalStorage() {
-    console.log(this.carritoService);
-
-    localStorage.setItem('carrito', JSON.stringify(this.carritoService));
+  public postCarrito(carrito: Item) {
+    return addDoc(this._collectionsVenta, carrito).then(() => {
+      this.removeCarritoLocalStorage();
+    });
   }
 
-  public getCarritoLocalStorage() {
-    this.carritoService = JSON.parse(localStorage.getItem('carrito') || '{}');
+
+  public setCarritoLocalStorage(carrito: Carrito): void {
+    localStorage.setItem('carrito', JSON.stringify(carrito));
   }
 
+  public getCarritoLocalStorage(): void {
+    const carrito = localStorage.getItem('carrito');
+    if (carrito) {
+      this.carritoService = JSON.parse(carrito);
+    }
+  }
+
+  public removeCarritoLocalStorage(): void {
+    localStorage.removeItem('carrito');
+  }
 }

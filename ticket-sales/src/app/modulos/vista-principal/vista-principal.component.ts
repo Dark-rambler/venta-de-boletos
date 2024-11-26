@@ -18,6 +18,26 @@ import { AuthService } from '../login/service/auth.service';
 export default class VistaPrincipalComponent {
 
   public autenticado: boolean;
+
+  public promos: Promo[] = [
+
+    {
+      nombre: 'Promo 1',
+      descripcion: 'Promo 1 description',
+      precio: 100,
+      imagen: 'https://via.placeholder.com/150',
+      fecha: '10/06/2025',
+      boletos: 1000,
+      lugar: 'Estadio de la ciudad',
+      descuento: 10,
+      fechaFin: '10/06/2025',
+      fechaInicio: '10/06/2024',
+      categoria: 'Concierto',
+    }
+  ]
+    ;
+  public eventos: Evento[];
+
   public data: Evento[];
   public tittle: string = 'Eventos';
   constructor(

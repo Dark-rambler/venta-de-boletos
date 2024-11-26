@@ -3,7 +3,7 @@ import { Component } from '@angular/core';
 import { Router, RouterModule } from '@angular/router';
 import { DataViewLayoutChangeEvent } from 'primeng/dataview';
 import { PrimeModule } from 'src/app/prime.module';
-import { VistaPricipalService } from './service/vista-pricipal.service';
+import { VistaPrincipalService } from './service/vista-principal.service';
 import { Promo } from 'src/app/interfaces/promo.interface';
 import { Evento } from 'src/app/interfaces/evento.interface';
 import { AuthService } from '../login/service/auth.service';
@@ -18,11 +18,31 @@ import { AuthService } from '../login/service/auth.service';
 export default class VistaPrincipalComponent {
 
   public autenticado: boolean;
+
+  public promos: Promo[] = [
+
+    {
+      nombre: 'Promo 1',
+      descripcion: 'Promo 1 description',
+      precio: 100,
+      imagen: 'https://via.placeholder.com/150',
+      fecha: '10/06/2025',
+      boletos: 1000,
+      lugar: 'Estadio de la ciudad',
+      descuento: 10,
+      fechaFin: '10/06/2025',
+      fechaInicio: '10/06/2024',
+      categoria: 'Concierto',
+    }
+  ]
+    ;
+  public eventos: Evento[];
+
   public data: Evento[];
   public tittle: string = 'Eventos';
   constructor(
     private router: Router,
-    private vistaPricipalService: VistaPricipalService,
+    private vistaPrincipalService: VistaPrincipalService,
     private authService: AuthService
   ) { }
 
@@ -32,14 +52,14 @@ export default class VistaPrincipalComponent {
   }
 
   public getEventos() {
-    this.vistaPricipalService.getEventos()
+    this.vistaPrincipalService.getEventos()
       .subscribe((promos: Evento[]) => {
         this.data = promos;
       });
   }
 
   public getPromos() {
-    this.vistaPricipalService.getPromos()
+    this.vistaPrincipalService.getPromos()
       .subscribe((promos: Promo[]) => {
         this.data = promos;
       });
@@ -50,14 +70,14 @@ export default class VistaPrincipalComponent {
   }
 
   public crearEvento(): void {
-    this.vistaPricipalService.postEvento()
+    this.vistaPrincipalService.postEvento()
       .then(() => {
         console.log('Evento creado');
       });
   }
 
   public crearPromo(): void {
-    this.vistaPricipalService.postPromo()
+    this.vistaPrincipalService.postPromo()
       .then(() => {
         console.log('Promo creada');
       }

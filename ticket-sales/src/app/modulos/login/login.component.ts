@@ -31,7 +31,10 @@ export default class LoginComponent {
     return hasEmailError(this.loginForm);
   }
 
-  constructor(private fb: FormBuilder, private authService: AuthService, private messageService: MessageService, private router: Router) {
+  constructor(private fb: FormBuilder,
+   private authService: AuthService,
+    private messageService: MessageService,
+    private router: Router) {
     this.loginForm = this.fb.group<FormLogin>({
       email: new FormControl('', {
         nonNullable: true,
@@ -49,15 +52,13 @@ export default class LoginComponent {
       const { email, password } = this.loginForm.value;
       try {
         let data = await this.authService.login({ email, password });
-        console.log('Inicio de sesión exitoso');
         this.messageService.add({
           severity: 'success',
           summary: 'Inicio de sesión exitoso',
           life: 3000,
         });
         let token: any = data.user;
-        this.authService.setToken(token.accessToken);
-
+        this.authService.iniciarSesion(token);
         this.router.navigate(['/inicio']);
       } catch (error) {
         this.messageService.add({

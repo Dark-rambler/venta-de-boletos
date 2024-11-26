@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { EventoModule } from './evento.module';
-import { VistaPricipalService } from '../vista-principal/service/vista-pricipal.service';
+import { VistaPrincipalService } from '../vista-principal/service/vista-principal.service';
 import { Evento } from 'src/app/interfaces/evento.interface';
 import { Carrito } from 'src/app/interfaces/carrito.interface';
 import { AuthService } from '../login/service/auth.service';
@@ -12,7 +12,7 @@ import { AuthService } from '../login/service/auth.service';
   standalone: true,
   imports: [CommonModule, EventoModule],
   templateUrl: './evento.component.html',
-  styleUrls: ['./evento.component.css']
+  styleUrls: ['./evento.component.css'],
 })
 export default class EventoComponent {
   public productId!: string;
@@ -22,7 +22,7 @@ export default class EventoComponent {
 
 
   constructor(private route: ActivatedRoute,
-    private vistaPricipalService: VistaPricipalService,
+    private vistaPrincipalService: VistaPrincipalService,
     private authService: AuthService,
     private router: Router,
 
@@ -31,7 +31,6 @@ export default class EventoComponent {
   ngOnInit(): void {
     this.route.paramMap.subscribe((params) => {
       this.productId = params.get('id')!;
-      console.log(`Product ID: ${this.productId}`);
       this.getEventoById(this.productId);
     }
     );
@@ -50,13 +49,13 @@ export default class EventoComponent {
   }
 
   private getEventoById(id: string): void {
-    this.vistaPricipalService.getEventoById(id).pipe().subscribe((evento) => {
+    this.vistaPrincipalService.getEventoById(id).pipe().subscribe((evento) => {
       if (evento) {
         this.evento = evento;
         this.montoTotal = this.cantidadBoletos * this.evento.precio;
-        console.log(this.evento);
+        console.log('Evento encontrado', evento);
       } else {
-      this.vistaPricipalService.getPromoById(id).pipe().subscribe((promo) => {
+      this.vistaPrincipalService.getPromoById(id).pipe().subscribe((promo) => {
         if (promo) {
           this.evento = promo;
           this.montoTotal = this.cantidadBoletos * this.evento.precio;
@@ -70,13 +69,17 @@ export default class EventoComponent {
   }
 
   public agregarAlCarrito(): void {
-    const item: Carrito = {
-      items: [this.evento],
-      cantidad: this.cantidadBoletos,
-      montoTotal: this.montoTotal
-    };
-    this.vistaPricipalService.setCarritoService(item)
-    ;
+    const evento: Evento = {
+      ...this.evento,
+      boletos: this.cantidadBoletos,
+    }
+
+    const item = {
+      evento: evento,
+      montoTotal: this.montoTotal,
+    }
+
+    this.vistaPrincipalService.setCarritoService(item);
   }
   public cerrarSesion(): void {
     this.authService.removeToken();

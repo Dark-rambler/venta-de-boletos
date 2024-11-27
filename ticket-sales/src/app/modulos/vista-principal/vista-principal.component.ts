@@ -7,36 +7,20 @@ import { VistaPrincipalService } from './service/vista-principal.service';
 import { Promo } from 'src/app/interfaces/promo.interface';
 import { Evento } from 'src/app/interfaces/evento.interface';
 import { AuthService } from '../login/service/auth.service';
+import { ModalComponent } from 'src/app/componentes/modal/modal.component';
 
 @Component({
   selector: 'app-vista-principal',
   templateUrl: './vista-principal.component.html',
   styleUrls: ['./vista-principal.component.css'],
   standalone: true,
-  imports: [RouterModule, PrimeModule, CommonModule],
+  imports: [RouterModule, PrimeModule, CommonModule, ModalComponent],
 })
 export default class VistaPrincipalComponent {
 
   public autenticado: boolean;
-
-  public promos: Promo[] = [
-
-    {
-      nombre: 'Promo 1',
-      descripcion: 'Promo 1 description',
-      precio: 100,
-      imagen: 'https://via.placeholder.com/150',
-      fecha: '10/06/2025',
-      boletos: 1000,
-      lugar: 'Estadio de la ciudad',
-      descuento: 10,
-      fechaFin: '10/06/2025',
-      fechaInicio: '10/06/2024',
-      categoria: 'Concierto',
-    }
-  ]
-    ;
   public eventos: Evento[];
+  public modal: ModalComponent;
 
   public data: Evento[];
   public tittle: string = 'Eventos';
@@ -49,6 +33,13 @@ export default class VistaPrincipalComponent {
   ngOnInit(): void {
     this.autenticado = this.authService.isToken();
     this.getEventos();
+    this.inicializaModal();
+  }
+
+  private inicializaModal() {
+    this.vistaPrincipalService.trigger.subscribe((modal: ModalComponent) => {
+      this.modal = modal;
+    });
   }
 
   public getEventos() {
@@ -97,6 +88,11 @@ export default class VistaPrincipalComponent {
   public cerrarSesion(): void {
     this.authService.removeToken();
     this.router.navigate(['/login']);
+    this.vistaPrincipalService.deleteCarritoService();
+  }
+
+  public openModal() {
+    this.modal.openModal();
   }
 
 }

@@ -24,6 +24,7 @@ export class ModalComponent {
 
   ngOnInit() {
     this.loadEventos();
+    this.vistaPrincipalService.trigger.emit(this);
   }
 
   loadEventos() {
@@ -49,6 +50,7 @@ export class ModalComponent {
     if (storedData) {
       this.vistaPrincipalService.postCarrito(JSON.parse(storedData))
       this.closeModal();
+      this.vistaPrincipalService.deleteCarritoService();
     }
   }
   cancelarCompra() {

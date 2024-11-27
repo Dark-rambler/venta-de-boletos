@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 
 import { EventoRoutingModule } from './evento-routing.module';
 import { PrimeModule } from 'src/app/prime.module';
+import { ModalComponent } from 'src/app/componentes/modal/modal.component';
 
 
 @NgModule({
@@ -10,10 +11,12 @@ import { PrimeModule } from 'src/app/prime.module';
   imports: [
     CommonModule,
     EventoRoutingModule,
-    PrimeModule
+    PrimeModule,
+    ModalComponent
   ],
   exports: [
-    PrimeModule
+    PrimeModule,
+    ModalComponent
   ]
 })
 export class EventoModule { }

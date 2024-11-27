@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { inject, Injectable } from '@angular/core';
+import { EventEmitter, inject, Injectable, Output } from '@angular/core';
 import {
   addDoc,
   collection,
@@ -22,6 +22,9 @@ const SALEPATH = 'venta';
   providedIn: 'root',
 })
 export class VistaPrincipalService {
+  @Output() trigger: EventEmitter<any> = new EventEmitter();
+
+
   constructor(private firestore: Firestore) {}
 
   private _collections = collection(this.firestore, PROMOPATH);

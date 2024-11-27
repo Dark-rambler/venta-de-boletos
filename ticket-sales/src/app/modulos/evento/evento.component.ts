@@ -6,6 +6,7 @@ import { VistaPrincipalService } from '../vista-principal/service/vista-principa
 import { Evento } from 'src/app/interfaces/evento.interface';
 import { Carrito } from 'src/app/interfaces/carrito.interface';
 import { AuthService } from '../login/service/auth.service';
+import { ModalComponent } from 'src/app/componentes/modal/modal.component';
 
 @Component({
   selector: 'app-evento',
@@ -19,6 +20,7 @@ export default class EventoComponent {
   public cantidadBoletos: number = 1;
   public montoTotal: number = 0;
   public evento: Evento;
+  public modal: ModalComponent;
 
 
   constructor(private route: ActivatedRoute,
@@ -34,6 +36,14 @@ export default class EventoComponent {
       this.getEventoById(this.productId);
     }
     );
+
+    this.inicializaModal();
+  }
+
+  private inicializaModal() {
+    this.vistaPrincipalService.trigger.subscribe((modal: ModalComponent) => {
+      this.modal = modal;
+    });
   }
 
   public incrementar(): void {
@@ -55,14 +65,15 @@ export default class EventoComponent {
         this.montoTotal = this.cantidadBoletos * this.evento.precio;
         console.log('Evento encontrado', evento);
       } else {
-      this.vistaPrincipalService.getPromoById(id).pipe().subscribe((promo) => {
-        if (promo) {
-          this.evento = promo;
-          this.montoTotal = this.cantidadBoletos * this.evento.precio;
-          console.log(this.evento);
-        } else {
-          console.log('No se encontro el evento');
-        }});
+        this.vistaPrincipalService.getPromoById(id).pipe().subscribe((promo) => {
+          if (promo) {
+            this.evento = promo;
+            this.montoTotal = this.cantidadBoletos * this.evento.precio;
+            console.log(this.evento);
+          } else {
+            console.log('No se encontro el evento');
+          }
+        });
       }
     }
     );
@@ -83,6 +94,12 @@ export default class EventoComponent {
   }
   public cerrarSesion(): void {
     this.authService.removeToken();
-    this.router.navigate(['/login']);}
+    this.router.navigate(['/login']);
+    this.vistaPrincipalService.deleteCarritoService();
+  }
 
+
+  public openModal() {
+    this.modal.openModal();
+  }
 }

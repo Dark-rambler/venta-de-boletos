@@ -1,3 +1,23 @@
+<div class="flex flex-row justify-content-between mb-3" >
+  <p-button
+      class="w-2 flex    "
+      icon="pi pi-cart-plus  "
+      (onClick)="openModal()"
+    >
+    </p-button>
+    <button
+    pButton
+    type="button"
+    tooltipPosition="left"
+    icon="pi pi-sign-out"
+    class="p-button-danger p-button-rounded p-button-outlined p-button-sm hover:bg-red-500 hover:text-white"
+    label=""
+    (click)="cerrarSesion()"
+  ></button>
+
+</div>
+<app-modal></app-modal>
+
 <div class="">
   <p-dataView
     #dv
@@ -93,13 +113,4 @@
   <div class="w-2 h-5rem" ></div>
 </div>
 <div class="fixed right-0 " *ngIf="autenticado">
-  <button
-    pButton
-    type="button"
-    tooltipPosition="left"
-    icon="pi pi-sign-out"
-    class="p-button-danger p-button-rounded p-button-outlined p-button-sm hover:bg-red-500 hover:text-white"
-    label=""
-    (click)="cerrarSesion()"
-  ></button>
 </div>

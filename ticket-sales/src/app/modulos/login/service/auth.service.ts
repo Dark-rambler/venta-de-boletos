@@ -52,6 +52,7 @@ export class AuthService {
 
   public removeToken(): void {
     localStorage.removeItem('token');
+    
   }
 
   public isToken(): boolean {
